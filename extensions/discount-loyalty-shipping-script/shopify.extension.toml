@@ -1,0 +1,25 @@
+api_version = "2026-01"
+
+[[extensions]]
+name = "t:name"
+handle = "discount-loyalty-shipping-script"
+type = "function"
+uid = "27687d84-77e7-1d30-33a9-1b0eb912c74d758c1ba6"
+description = "t:description"
+
+  [[extensions.targeting]]
+  target = "cart.lines.discounts.generate.run"
+  input_query = "src/cart_lines_discounts_generate_run.graphql"
+  export = "cart-lines-discounts-generate-run"
+
+  [[extensions.targeting]]
+  target = "cart.delivery-options.discounts.generate.run"
+  input_query = "src/cart_delivery_options_discounts_generate_run.graphql"
+  export = "cart-delivery-options-discounts-generate-run"
+
+  [extensions.build]
+  command = ""
+  path = "dist/function.wasm"
+
+[extensions.ui]
+handle = "ui-discount-loyalty-shipping-script"

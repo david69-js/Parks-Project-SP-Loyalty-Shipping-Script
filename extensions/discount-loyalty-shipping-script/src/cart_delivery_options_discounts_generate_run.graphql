@@ -1,0 +1,35 @@
+query Input {
+  cart {
+    cost {
+      subtotalAmount {
+        amount
+      }
+    }
+    deliveryGroups {
+      deliveryOptions {
+        handle
+        cost {
+          amount
+        }
+      }
+    }
+   buyerIdentity {
+      customer {
+        id
+        hasTags(tags: [
+          "swell_vip_ranger in training",
+          "swell_vip_junior ranger",
+          "swell_vip_chief ranger"
+        ]) {
+          tag
+          hasTag
+        }
+      }
+    }
+  }
+  discount {
+    metafield(namespace: "$app", key: "loyalty-shipping-script") {
+      jsonValue
+    }
+  }
+}

@@ -1,0 +1,18 @@
+api_version = "2026-01"
+[[extensions]]
+# Change the merchant-facing name of the extension in locales/en.default.json
+name = "t:name"
+description = "t:description"
+handle = "ui-discount-loyalty-shipping-script"
+uid = "5753d586-4e7c-870c-410c-6a0d53c618efe8cc9c90"
+type = "ui_extension"
+# Only 1 target can be specified for each Admin block extension
+[[extensions.targeting]]
+module = "./src/DiscountFunctionSettings.jsx"
+target = "admin.discount-details.function-settings.render"
+
+[[extensions.metafields]]
+namespace = "$app"
+key = "loyalty-shipping-script"
+
+
