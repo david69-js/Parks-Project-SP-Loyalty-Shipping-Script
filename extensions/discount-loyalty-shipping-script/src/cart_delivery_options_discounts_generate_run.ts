@@ -1,9 +1,18 @@
 import {
   DeliveryDiscountSelectionStrategy,
-  DiscountClass,
   DeliveryInput,
   CartDeliveryOptionsDiscountsGenerateRunResult,
 } from "../generated/api";
+
+type TierConfig = {
+  customerTag: string;
+  minimumSubtotal: number;
+  shippingDiscountPercent: number;
+};
+
+type LoyaltyShippingConfig = {
+  tiers: TierConfig[];
+};
 
 export function cartDeliveryOptionsDiscountsGenerateRun(
   input: DeliveryInput,
@@ -13,13 +22,45 @@ export function cartDeliveryOptionsDiscountsGenerateRun(
     return {operations: []};
   }
 
-  const hasShippingDiscountClass = input.discount.discountClasses.includes(
-    DiscountClass.Shipping,
-  );
-
-  if (!hasShippingDiscountClass) {
+  const metafield = input.discount.metafield;
+  if (!metafield || !metafield.jsonValue) {
     return {operations: []};
   }
+
+  const config = metafield.jsonValue as LoyaltyShippingConfig;
+  const tiers = config.tiers ?? [];
+
+  const customer = input.cart.buyerIdentity?.customer;
+  const hasTags = customer?.hasTags ?? [];
+  const subtotal = input.cart.cost.subtotalAmount.amount;
+
+
+  const applicableTiers: TierConfig[] = tiers.filter(tier => {
+    const tagMatch = hasTags.find(
+      t => t.tag === tier.customerTag && t.hasTag === true,
+    );
+    if (!tagMatch) {
+      return false;
+    }
+    return subtotal >= tier.minimumSubtotal;
+  });
+
+  if (applicableTiers.length === 0) {
+    return {operations: []};
+  }
+
+  const bestTier = applicableTiers.reduce((currentBest, candidate) => {
+    if (!currentBest) return candidate;
+    return candidate.shippingDiscountPercent > currentBest.shippingDiscountPercent
+      ? candidate
+      : currentBest;
+  });
+
+  const discountPercent = bestTier.shippingDiscountPercent ?? 0;
+  if (discountPercent <= 0) {
+    return {operations: []};
+  }
+
 
   return {
     operations: [
@@ -27,7 +68,10 @@ export function cartDeliveryOptionsDiscountsGenerateRun(
         deliveryDiscountsAdd: {
           candidates: [
             {
-              message: "FREE DELIVERY",
+              message:
+                discountPercent === 100
+                  ? "Free Shipping"
+                  : `${discountPercent}% off shipping`,
               targets: [
                 {
                   deliveryGroup: {
@@ -37,7 +81,7 @@ export function cartDeliveryOptionsDiscountsGenerateRun(
               ],
               value: {
                 percentage: {
-                  value: 100,
+                  value: discountPercent,
                 },
               },
             },

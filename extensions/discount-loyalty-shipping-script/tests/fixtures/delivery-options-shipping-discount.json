@@ -20,7 +20,7 @@
           "deliveryDiscountsAdd": {
             "candidates": [
               {
-                "message": "FREE DELIVERY",
+                "message": "FREE TESST",
                 "targets": [
                   {
                     "deliveryGroup": {
