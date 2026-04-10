@@ -9,7 +9,7 @@
             "id": "gid://shopify/CartLine/0",
             "cost": {
               "subtotalAmount": {
-                "amount": "100.0"
+                "amount": "10.0"
               }
             }
           }
@@ -20,30 +20,7 @@
       }
     },
     "output": {
-      "operations": [
-        {
-          "orderDiscountsAdd": {
-            "candidates": [
-              {
-                "message": "10% OFF ORDER",
-                "targets": [
-                  {
-                    "orderSubtotal": {
-                      "excludedCartLineIds": []
-                    }
-                  }
-                ],
-                "value": {
-                  "percentage": {
-                    "value": 10.0
-                  }
-                }
-              }
-            ],
-            "selectionStrategy": "FIRST"
-          }
-        }
-      ]
+      "operations": []
     }
   }
 }

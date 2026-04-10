@@ -16,7 +16,7 @@
         ]
       },
       "discount": {
-        "discountClasses": []
+        "discountClasses": ["SHIPPING"]
       }
     },
     "output": {

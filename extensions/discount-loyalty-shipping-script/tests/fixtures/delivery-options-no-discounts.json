@@ -6,12 +6,28 @@
       "cart": {
         "deliveryGroups": [
           {
-            "id": "gid://shopify/DeliveryGroup/0"
+            "id": "gid://shopify/CartDeliveryGroup/1",
+            "deliveryOptions": []
           }
-        ]
+        ],
+        "cost": {
+          "subtotalAmount": {
+            "amount": "100.0"
+          }
+        },
+        "buyerIdentity": {
+          "customer": {
+            "id": "gid://shopify/Customer/1",
+            "hasTags": []
+          }
+        }
       },
       "discount": {
-        "discountClasses": []
+        "metafield": {
+          "jsonValue": {
+            "tiers": []
+          }
+        }
       }
     },
     "output": {

@@ -4,10 +4,16 @@
     "target": "cart.delivery-options.discounts.generate.run",
     "input": {
       "cart": {
-        "deliveryGroups": []
+        "deliveryGroups": [],
+        "cost": {
+          "subtotalAmount": {
+            "amount": "0.0"
+          }
+        },
+        "buyerIdentity": null
       },
       "discount": {
-        "discountClasses": ["SHIPPING"]
+        "metafield": null
       }
     },
     "output": {

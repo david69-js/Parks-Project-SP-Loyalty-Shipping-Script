@@ -16,57 +16,12 @@
         ]
       },
       "discount": {
-        "discountClasses": ["PRODUCT", "ORDER", "SHIPPING"]
+        "discountClasses": ["PRODUCT", "ORDER"]
       }
     },
     "inputBytes": 126,
     "output": {
-      "operations": [
-        {
-          "orderDiscountsAdd": {
-            "candidates": [
-              {
-                "message": "10% OFF ORDER",
-                "targets": [
-                  {
-                    "orderSubtotal": {
-                      "excludedCartLineIds": []
-                    }
-                  }
-                ],
-                "value": {
-                  "percentage": {
-                    "value": 10.0
-                  }
-                }
-              }
-            ],
-            "selectionStrategy": "FIRST"
-          }
-        },
-        {
-          "productDiscountsAdd": {
-            "candidates": [
-              {
-                "message": "20% OFF PRODUCT",
-                "targets": [
-                  {
-                    "cartLine": {
-                      "id": "gid://shopify/CartLine/0"
-                    }
-                  }
-                ],
-                "value": {
-                  "percentage": {
-                    "value": 20.0
-                  }
-                }
-              }
-            ],
-            "selectionStrategy": "FIRST"
-          }
-        }
-      ]
+      "operations": []
     }
   }
 }
