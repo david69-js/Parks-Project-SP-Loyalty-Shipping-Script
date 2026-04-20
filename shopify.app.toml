@@ -17,3 +17,10 @@ scopes = "read_customers, write_customers, read_discounts, write_discounts read_
 
 [auth]
 redirect_urls = [ "https://shopify.dev/apps/default-app-home/api/auth" ]
+
+[discount.metafields.app.loyalty-shipping-script]
+type = "json"
+name = "Loyalty Shipping configuration"
+description = "Threshold & gift variant config for the Loyalty Shipping discount function."
+access.admin = "merchant_read_write"
+access.storefront = "none"
