@@ -1,7 +1,8 @@
 import {
   DeliveryDiscountSelectionStrategy,
-  DeliveryInput,
+  Input,
   CartDeliveryOptionsDiscountsGenerateRunResult,
+  CartDeliveryOption,
 } from "../generated/api";
 
 type TierConfig = {
@@ -15,7 +16,7 @@ type LoyaltyShippingConfig = {
 };
 
 export function cartDeliveryOptionsDiscountsGenerateRun(
-  input: DeliveryInput,
+  input: Input,
 ): CartDeliveryOptionsDiscountsGenerateRunResult {
   const firstDeliveryGroup = input.cart.deliveryGroups[0];
   if (!firstDeliveryGroup) {
@@ -37,7 +38,7 @@ export function cartDeliveryOptionsDiscountsGenerateRun(
 
   const applicableTiers: TierConfig[] = tiers.filter(tier => {
     const tagMatch = hasTags.find(
-      t => t.tag === tier.customerTag && t.hasTag === true,
+      (t: { tag: string; hasTag: boolean }) => t.tag === tier.customerTag && t.hasTag === true,
     );
     if (!tagMatch) {
       return false;
@@ -61,6 +62,13 @@ export function cartDeliveryOptionsDiscountsGenerateRun(
     return {operations: []};
   }
 
+  const standardShippingOptions = firstDeliveryGroup.deliveryOptions.filter(
+    (option: CartDeliveryOption) => option.title === "Standard Shipping",
+  );
+
+  if (standardShippingOptions.length === 0) {
+    return {operations: []};
+  }
 
   return {
     operations: [
@@ -72,13 +80,11 @@ export function cartDeliveryOptionsDiscountsGenerateRun(
                 discountPercent === 100
                   ? "Free Shipping"
                   : `${discountPercent}% off shipping`,
-              targets: [
-                {
-                  deliveryGroup: {
-                    id: firstDeliveryGroup.id,
-                  },
+              targets: standardShippingOptions.map((option: CartDeliveryOption) => ({
+                deliveryOption: {
+                  handle: option.handle,
                 },
-              ],
+              })),
               value: {
                 percentage: {
                   value: discountPercent,

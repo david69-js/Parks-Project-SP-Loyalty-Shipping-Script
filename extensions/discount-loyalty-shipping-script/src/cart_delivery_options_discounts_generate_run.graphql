@@ -9,6 +9,7 @@ query Input {
       id
       deliveryOptions {
         handle
+        title
         cost {
           amount
         }
